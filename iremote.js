@@ -90,11 +90,21 @@ var XbmcRequest = {
     if(method=="System.Shutdown") {
       executeRequest = confirm("Are you sure you want to shutdown the system ?");
     }
-
     if(executeRequest) {
       var http_request = new XMLHttpRequest();
       http_request.open("POST", this.getServerUrl() +"/jsonrpc", true);
-      http_request.send('{"jsonrpc": "2.0", "method": "' + method  + '", "params": ' + params + ', "id": 1}');
+      http_request.setRequestHeader("Content-type","application/json");
+      var request = '{"jsonrpc": "2.0", "method": "' + method  + '", "params": ' + JSON.stringify(params) + ', "id": 1}';
+      console.log("calling JSONRPC", request);
+      http_request.send(request);
+      http_request.onreadystatechange = function() {
+        if (http_request.readyState == 4) { console.log("JSONRPC response", http_request.responseText); }
+      };
+
+      if (typeof params.playerid == 'number' && params.playerid < 2) {
+        params.playerid++;
+        XbmcRequest.send('JSON-RPC', method, params);
+      };
     }
   },
   
@@ -147,7 +157,7 @@ var XbmcRequest = {
   send: function(type, command, params) {    
     switch(type) {
       case 'JSON-RPC':
-        params = params ? params : '{}';
+        params = params ? params : {};
         this.sendJSonRPCRequest(command, params);
         break;
       
@@ -391,6 +401,7 @@ var iRemote = {
 window.onload = function() {
   iPhoneUI.init();
   iRemote.init();
+  FastClick.attach(document.body);
 };
 
 window.onorientationchange = function() {

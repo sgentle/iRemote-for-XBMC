@@ -39,16 +39,16 @@
       <nav><a href="#actions" id="to_actions" onclick="iPhoneUI.transition(this);">Action List</a></nav>
     </header>
     <div id="controller_pad" class="hidden">
-      <a href="#" onclick="XbmcRequest.send('HTTP-API','key','C'); return false;" id="controller_osd"><img src="images/controller-osd.png" /></a>
+      <a href="#" onclick="XbmcRequest.send('JSON-RPC','Input.ShowOSD'); return false;" id="controller_osd"><img src="images/controller-osd.png" /></a>
       <img src="images/controller-cross.png" width="237" height="237" id="controller_img" usemap="#controller_map" />
     </div>
     <div id="gestures_logo" class="hidden">&nbsp;</div>
     <ul id="controller_bar">
       <li id="back"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Input.Back'); return false;">Back</a></li>
-      <li id="rewind"><a href="#" onclick="XbmcRequest.send('HTTP-API','key','R'); return false;">Rewind</a></li>
-      <li id="play"><a href="#" onclick="XbmcRequest.send('HTTP-API','key',' '); return false;">Play/Pause</a></li>
-      <li id="stop"><a href="#" onclick="XbmcRequest.send('HTTP-API','key','X'); return false;">Stop</a></li>
-      <li id="forward"><a href="#" onclick="XbmcRequest.send('HTTP-API','key','F'); return false;">Forward</a></li>
+      <li id="rewind"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Player.SetSpeed', {playerid: 0, speed: -2}); return false;">Rewind</a></li>
+      <li id="play"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Player.PlayPause', {playerid: 0}); return false;">Play/Pause</a></li>
+      <li id="stop"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Player.Stop', {playerid: 0}); return false;">Stop</a></li>
+      <li id="forward"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Player.SetSpeed', {playerid: 0, speed: 2}); return false;">Forward</a></li>
     </ul>
   </section>
   <section id="actions" class="slideToRight">
@@ -59,7 +59,7 @@
     <ul class="iphone_ui_list">
       <li id="watched"><a href="#" onclick="XbmcRequest.send('HTTP-API','key','W'); return false;">Mark as watched</a></li>
       <li id="media_info"><a href="#" onclick="XbmcRequest.send('HTTP-API','key','I'); return false;">Media info</a></li>
-      <li id="context_menu"><a href="#" onclick="XbmcRequest.send('HTTP-API','key','C'); return false;">Context menu</a></li>
+      <li id="context_menu"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Input.ContextMenu'); return false;">Context menu</a></li>
     </ul>
     <ul class="iphone_ui_list">
       <li id="exit"><a href="#" onclick="XbmcRequest.send('JSON-RPC','Application.Quit'); return false;">Exit</a></li>
@@ -77,5 +77,6 @@
       <area href="#" onclick="XbmcRequest.send('JSON-RPC','Input.Select'); return false;" alt="OK" shape="circle" coords="119,118,49" />
   </map>
   <script type="text/javascript" src="iremote.js"></script>
+  <script type="text/javascript" src="fastclick.js"></script>
 </body>
 </html>
